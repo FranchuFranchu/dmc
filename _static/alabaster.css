@@ -699,3 +699,7 @@ nav#breadcrumbs li+li:before {
         display: none;
     }
 }
+
+td {
+    border: solid black 1px;
+}
