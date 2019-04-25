@@ -1,0 +1,63 @@
+.. TavlorGames' Discord Bot documentation master file, created by
+   sphinx-quickstart on Wed Apr 24 18:18:37 2019.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
+
+Welcome to TavlorGames' Discord Bot's documentation!
+====================================================
+
+Protocol, server -> bot
+====================================================
+**The format of a packet is as follows**
+
+.. csv-table:: All packets
+   :header: "Name", "Length", "Description"
+   :widths: 15, 10, 30
+
+   "Packet Length", "2 bytes", "Specifies packet_length"
+   "Message Type", "1 B", "A byte specifying message type"
+   "Data", "May vary", "Content depends on message_type"
+
+Data
+----------------
+.. csv-table:: All message types
+   :header: "Name", "Length", "Description"
+   :widths: 15, 20, 100
+
+   "Message", "Until end of packet", "Literal message the bot should send through the channel. The server is in charge of formatting Markdown appropiatedly"
+
+Protocol, bot -> server
+====================================================
+**The format of a bot -> server packet is as follows**
+
+.. csv-table:: All packets
+   :header: "Name", "Length", "Description"
+   :widths: 15, 10, 30
+
+   "Packet Length", "2 bytes", "Specifies packet_length"
+   "Message Type", "1 B", "A byte specifying message type"
+   "Data", "May vary", "Content depends on message_type"
+
+Data
+----------------
+**Message type 0x01 is used for chat in the assigned channel**
+
+.. csv-table:: Message 0x01
+   :header: "Name", "Length", "Description"
+   :widths: 15, 20, 60
+
+   "Author", "Until NULL character is reached", "Author of the message, ascii-encoded"
+   "Author", "Until end of packet is reached", "Content of the message, ascii-encoded"
+
+**Message type 0x02 is used for bans and mutes**
+
+.. csv-table:: Message 0x02
+   :header: "Name", "Length", "Description"
+   :widths: 15, 20, 60
+
+   "Ban / mute", "1 byte", "If it's 0x10, it is a ban. If it is 0x11, it is a mute"
+   "Banner", "Until NULL character is reached", "Discord username of the one who banned the player"
+   "Player", "Until NULL character is reached", "Provided username of banned player"
+   "Date", "Until NULL character is reached", "Date when the ban/mute ends. If it's before the current date, then it's permanent. The date is an ascii-encoded, ISO 8601 (YYYY-MM-DDTHH:MM:SS.mmmmmm) string"
+   "Reason", "Until end of packet is reached", "Reason provided, ascii-encoded"
+
